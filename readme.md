@@ -47,3 +47,38 @@ Sin embargo, como el parámetro recibido desde Flask es una cadena de caracteres
 
     conjunto = set(parametroRecibido.split(","))
     str(conjunto)
+
+### Funciones implementadas
+#### Diccionarios
+Las funciones implementadas para los diccionarios incluyen agregar una clave-valor, eliminar una clave-valor, modificar el valor asociado a una clave y combinar dos diccionarios distintos.
+
+    @app.route("/dict/agregar/<path:diccionario>/<clave>/<valor>")
+
+    diccionario = json.loads(diccionario)
+    diccionario.update({clave:valor})
+    diccionario = json.dumps(diccionario)
+    return diccionario
+
+La ruta que se asigna indica que se debe mandar como parámetros, una cadena que se puede incluir elementos propios de una URL, una clave y un valor, todo separado por `/`.
+`json.loads(diccionario)` toma la cadena de caracteres recibida desde la URL y la convierte en un objeto Python. Después actualiza el diccionario usando los valores en crudo de los parámetros recibidos.
+`json.dumps(diccionario)` toma el objeto de python y lo convierte en una cadena valida para ser usada por JavaScript, lo que se traduce en un formato adecuado para páginas HTML.
+
+    @app.route("/dict/eliminar/<path:diccionario>/<clave>")
+
+    def eliminarDeDict(diccionario: dict, clave):
+        diccionario = json.loads(diccionario)
+        diccionario.pop(clave)
+        diccionario = json.dumps(diccionario)
+        return diccionario
+
+Este método recibe dos parámetros, el diccionario y una clave. Se traduce el diccionario en objeto Python y luego se llama el método `diccionario.pop(clave)` para eliminar del diccionario el elemento que coincida con el parámetro `clave`. Se traduce en una cadena JS y se regresa como resultado de la función.
+
+    @app.route("/dict/combinar/<path:diccionario1>/<path:diccionario2>")
+
+    diccionario1 = json.loads(diccionario1)
+    diccionario2 = json.loads(diccionario2)
+    diccionario1.update(diccionario2)
+    diccionario1 = json.dumps(diccionario1)
+    return diccionario1
+
+Este método acepta dos parámetros, los cuales son tomados de la ruta a la aplicación Flask. Ambos parámetros son diccionarios, los cuales se traducen a objetos Python y el segundo se agrega al primero. Acto seguido, se traduce a cadena JS y se regresa como resultado.
